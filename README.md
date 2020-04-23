@@ -1,2 +1,0 @@
-# ReactTwitterLikeCounter
-Created with CodeSandbox
