@@ -13,6 +13,7 @@ const Popup = styled.div`
   font-size: 1.5em;
   text-align: center;
   color: palevioletred;
+  background-color: #fff;
   margin: 10px;
   padding: 10px;
   width: 100px;
