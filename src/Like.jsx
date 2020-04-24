@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { withTheme, ThemeProvider } from "styled-components";
 
 const Styled = styled.h1`
   font-size: 1.5em;
@@ -7,6 +7,20 @@ const Styled = styled.h1`
   color: palevioletred;
   margin: 10px;
   padding: 10px;
+`;
+
+const Popup = styled.div`
+  font-size: 1.5em;
+  text-align: center;
+  color: palevioletred;
+  margin: 10px;
+  padding: 10px;
+  width: 100px;
+  height: 30px;
+  left: ${props => props.theme.x + "px"};
+  top: ${props => props.theme.y + "px"};
+  position: absolute;
+  border: 1px solid grey;
 `;
 
 const Like = () => {
@@ -33,14 +47,42 @@ const Like = () => {
   );
 };
 
-export default withStyledComponent(Like);
-
+//export default withStyledComponent(Like);
 function withStyledComponent(Component) {
   return () => {
     return (
       <Styled>
         <Component />
       </Styled>
+    );
+  };
+}
+
+export default withTooltipComponent(Like);
+
+function withTooltipComponent(Component) {
+  return () => {
+    const [flag, setFlag] = React.useState(() => false);
+    const [pos, setPos] = React.useState(() => ({ x: 0, y: 0 }));
+    const Popups = () => <Popup>Hello</Popup>;
+    return (
+      <div
+        onMouseOver={() => {
+          setPos({ x: event.clientX, y: event.clientY });
+          setFlag(true);
+        }}
+        onMouseOut={() => {
+          setPos({ x: event.clientX, y: event.clientY });
+          setFlag(false);
+        }}
+      >
+        {flag && (
+          <ThemeProvider theme={pos}>
+            <Popups />
+          </ThemeProvider>
+        )}
+        <Component />
+      </div>
     );
   };
 }
